@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    container_name: RabbitMQ
+    image: rabbitmq:3.8-management
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
+  receiptgenerator:
+    container_name: ReceiptGenerator
+    image: ${DOCKER_REGISTRY-}receiptgenerator
+    depends_on:
+      - rabbitmq
+    build:
+      context: .
+      dockerfile: ReceiptGenerator/Dockerfile
+
+  webui:
+    container_name: WebUI
+    image: ${DOCKER_REGISTRY-}webui
+    depends_on:
+      - receiptgenerator
+    build:
+      context: .
+      dockerfile: WebUI/Dockerfile

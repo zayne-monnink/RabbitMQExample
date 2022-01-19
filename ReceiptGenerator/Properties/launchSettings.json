@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ReceiptGenerator": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
